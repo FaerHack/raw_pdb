@@ -11,4 +11,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 						-fms-extensions)
 endif()
 
+option(RAWPDB_BUILD_EXAMPLES "Build examples")
+
 add_subdirectory(src)
