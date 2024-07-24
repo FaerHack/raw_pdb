@@ -45,3 +45,22 @@ PDB_NO_DISCARD uint32_t PDB::ImageSectionStream::ConvertSectionOffsetToRVA(uint1
 
 	return m_headers[oneBasedSectionIndex - 1u].VirtualAddress + offsetInSection;
 }
+
+PDB_NO_DISCARD uint32_t PDB::ImageSectionStream::ConvertSectionOffsetToRVA(uint16_t oneBasedSectionIndex, uint32_t offsetInSection, uint32_t& Characteristics) const PDB_NO_EXCEPT
+{
+	if (oneBasedSectionIndex == 0u)
+	{
+		// should never happen, but prevent underflow
+		return 0u;
+	}
+	else if (oneBasedSectionIndex > m_count)
+	{
+		// this symbol is "contained" in a section that is neither part of the PDB, nor the EXE.
+		// it is a special compiler-generated or linker-generated symbol such as CFG symbols (e.g. __guard_fids_count, __guard_flags).
+		// we can safely ignore those symbols.
+		return 0u;
+	}
+
+	Characteristics = m_headers[oneBasedSectionIndex - 1u].Characteristics;
+	return m_headers[oneBasedSectionIndex - 1u].VirtualAddress + offsetInSection;
+}

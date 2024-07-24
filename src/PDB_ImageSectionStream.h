@@ -26,6 +26,8 @@ namespace PDB
 		// Converts a one-based section offset into an RVA.
 		PDB_NO_DISCARD uint32_t ConvertSectionOffsetToRVA(uint16_t oneBasedSectionIndex, uint32_t offsetInSection) const PDB_NO_EXCEPT;
 
+		PDB_NO_DISCARD uint32_t ConvertSectionOffsetToRVA(uint16_t oneBasedSectionIndex, uint32_t offsetInSection, uint32_t& Characteristics) const PDB_NO_EXCEPT;
+
 		// Returns a view of all the sections in the stream.
 		PDB_NO_DISCARD inline ArrayView<IMAGE_SECTION_HEADER> GetImageSections(void) const PDB_NO_EXCEPT
 		{
